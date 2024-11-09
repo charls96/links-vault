@@ -1,13 +1,28 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --allow-read --allow-env --watch main.ts",
+    "test": "deno test --allow-read --allow-env --parallel ./src/tests/*.test.ts",
+    "test-debug": "deno test --allow-read --allow-env --inspect-brk ./src/tests/*.test.ts"
   },
   "imports": {
-    "@composables": "./composables/index.ts",
-    "@constants": "./constants/index.ts",
+    "@composables": "./src/composables/index.ts",
+    "@constants": "./src/constants/index.ts",
+    "@controllers": "./src/controllers/index.ts",
+    "@services": "./src/services/index.ts",
     "@std/assert": "jsr:@std/assert@1",
-    "@types": "./types/index.ts",
-    "dotenv": "https://deno.land/x/dotenv@v3.2.2/mod.ts",
-    "twitch_irc": "https://deno.land/x/twitch_irc@0.11.2/mod.ts"
+    "@typeguard": "./src/utils/typeguard/index.ts",
+    "@types": "./src/types/index.ts",
+    "@utils": "./src/utils/index.ts"
+  },
+  "lint": {
+    "files": ["src/**/*.ts", "src/**/*.tsx"],
+    "rules": {
+      "ban-ts-comment": "warn", 
+      "no-explicit-any": "warn", 
+      "no-throw-literal": "error",
+      "no-unreachable": "error",
+      "no-unused-vars": "warn", 
+      "prefer-const": "warn" 
+    }
   }
 }
