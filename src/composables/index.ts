@@ -1,1 +1,1 @@
-export * from "./twitch.ts"
+export * from "./twitch.ts";

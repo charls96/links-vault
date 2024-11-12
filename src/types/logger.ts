@@ -1,8 +1,0 @@
-import {
-  LOGGER_CONTEXT_ENVIRONMENT_VARIABLES,
-  LOGGER_CONTEXT_TEST,
-} from "@constants";
-
-export type LoggerContext =
-  | typeof LOGGER_CONTEXT_ENVIRONMENT_VARIABLES
-  | typeof LOGGER_CONTEXT_TEST;

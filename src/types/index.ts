@@ -1,3 +1,3 @@
 export * from "./env.ts";
-export * from "./logger.ts";
+export * from "./app.ts";
 export * from "./twitch.ts";

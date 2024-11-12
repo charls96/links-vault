@@ -1,5 +1,5 @@
 import "jsr:@std/dotenv/load";
-import { assertEquals } from "https://deno.land/std@0.150.0/testing/asserts.ts";
+import { assertEquals } from "@std/assert";
 import { TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET } from "@constants";
 
 Deno.test(

@@ -1,8 +1,8 @@
 {
   "tasks": {
-    "dev": "deno run --allow-read --allow-env --watch main.ts",
-    "test": "deno test --allow-read --allow-env --parallel ./src/tests/*.test.ts",
-    "test-debug": "deno test --allow-read --allow-env --inspect-brk ./src/tests/*.test.ts"
+    "dev": "deno run --allow-read --allow-env --allow --watch app.ts",
+    "test": "deno test --allow-read --allow-env --allow-net --parallel ./src/tests/*.test.ts",
+    "test-debug": "deno test --allow-read --allow-env --allow-net --parallel --inspect-brk ./src/tests/*.test.ts"
   },
   "imports": {
     "@composables": "./src/composables/index.ts",
@@ -17,12 +17,12 @@
   "lint": {
     "files": ["src/**/*.ts", "src/**/*.tsx"],
     "rules": {
-      "ban-ts-comment": "warn", 
-      "no-explicit-any": "warn", 
+      "ban-ts-comment": "warn",
+      "no-explicit-any": "warn",
       "no-throw-literal": "error",
       "no-unreachable": "error",
-      "no-unused-vars": "warn", 
-      "prefer-const": "warn" 
+      "no-unused-vars": "warn",
+      "prefer-const": "warn"
     }
   }
 }

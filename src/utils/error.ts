@@ -1,7 +1,6 @@
-import type { LoggerContext } from "@types";
-import { LOGGER_CONTEXT_ENVIRONMENT_VARIABLES } from "../constants/logger.ts";
+import { AppContext } from "@types";
 
-const createErrorClass = function (context: LoggerContext) {
+const createErrorClass = function (context: AppContext) {
   return class CustomError extends Error {
     constructor(message: string) {
       super(`${context}::${message}`);
@@ -11,5 +10,8 @@ const createErrorClass = function (context: LoggerContext) {
 };
 
 export const EnvironmentsVariableError = createErrorClass(
-  LOGGER_CONTEXT_ENVIRONMENT_VARIABLES
+  AppContext.ENVIRONMENT_VARIABLES
+);
+export const TwitchServiceError = createErrorClass(
+  AppContext.TWITCH_SERVICE
 );
