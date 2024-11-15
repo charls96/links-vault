@@ -1,9 +1,9 @@
 import { createTypeGuard } from "@typeguard";
-import type { AUTH_TOKEN_RESPONSE } from "@types";
+import type { AuthResponseToken } from "@types";
 
 const parserAuthTokenResponse = (
   value: unknown
-): AUTH_TOKEN_RESPONSE | undefined => {
+): AuthResponseToken | undefined => {
   if (
     typeof value === "object" &&
     value &&

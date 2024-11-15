@@ -9,6 +9,7 @@
     "@constants": "./src/constants/index.ts",
     "@controllers": "./src/controllers/index.ts",
     "@services": "./src/services/index.ts",
+    "@session": "./src/models/session.ts",
     "@std/assert": "jsr:@std/assert@1",
     "@typeguard": "./src/utils/typeguard/index.ts",
     "@types": "./src/types/index.ts",
@@ -22,7 +23,9 @@
       "no-throw-literal": "error",
       "no-unreachable": "error",
       "no-unused-vars": "warn",
-      "prefer-const": "warn"
+      "prefer-const": "warn",
+      "use-tabs": true,
+      "indent-width": 1
     }
   }
 }

@@ -1,63 +1,36 @@
-import {
-  AUTH_GRANT_TYPE,
-  POST,
-  TWITCH_CLIENT_ID,
-  TWITCH_CLIENT_SECRET,
-  URL_ENCODED_CONTENT_TYPE,
-} from "@constants";
+import { TWITCH_CLIENT_ID } from "@constants";
+import services from "@services";
 import { TwitchServiceError } from "@utils";
-import { isAuthTokenResponse } from "@typeguard";
 
 export default class TwitchService {
-  static readonly #twitchBaseURL = "https://id.twitch.tv";
-  static readonly #urls: Record<string, string> = {
-    auth: `${this.#twitchBaseURL}/oauth2/token`,
+  readonly #twitchBaseURL = "https://id.twitch.tv";
+  readonly #urls: Record<string, string> = {
+    users: `${this.#twitchBaseURL}/helix/users`,
   };
 
-  private sessionToken: string;
+  private authToken = services.twitchAuth.getTwitchAuthToken();
 
-  private constructor(sessionToken: string) {
-    this.sessionToken = sessionToken;
-  }
-
-  static async init(): Promise<TwitchService> {
-    const sessionToken = await this.getTwitchToken();
-    return new TwitchService(sessionToken);
-  }
-
-  private static async getTwitchToken(): Promise<string> {
+  private async getUserId(username: string): Promise<string | undefined> {
     try {
-      const response = await fetch(this.#urls.auth, {
-        method: POST,
+      const response = await fetch(`${this.#urls.users}?login=${username}`, {
         headers: {
-          "Content-Type": URL_ENCODED_CONTENT_TYPE,
+          Authorization: this.authToken,
+          "Client-Id": TWITCH_CLIENT_ID,
         },
-        body: new URLSearchParams({
-          client_id: TWITCH_CLIENT_ID,
-          client_secret: TWITCH_CLIENT_SECRET,
-          grant_type: AUTH_GRANT_TYPE,
-        }).toString(),
       });
 
-      if (!response.ok)
+      if (!response.ok) {
         throw new TwitchServiceError(
-          `Failed to fetch token: ${response.statusText}`
+          `Failed to fetch the user id with username: ${username} status: ${response.status}`
         );
+      }
 
-      const authResponseData = await response.json();
-
-      if (!isAuthTokenResponse(authResponseData))
-        throw new TwitchServiceError(
-          `Failed to fetch token, The response does not meet the interface: AUTH_TOKEN_RESPONSE`
-        );
-
-      return authResponseData.access_token;
+      const data = await response.json();
+      return data.data[0]?.id;
     } catch (error) {
-      throw new TwitchServiceError(`Failed to fetch token: ${error}`);
+      throw new TwitchServiceError(
+        `Failed to fetch the user id with username: ${username} error: ${error}`
+      );
     }
-  }
-
-  getToken(): string {
-    return this.sessionToken;
   }
 }
