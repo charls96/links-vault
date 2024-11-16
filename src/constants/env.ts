@@ -6,10 +6,12 @@ import { isEnvironmentVariables } from "@typeguard";
 const _getEnvVars = (): EnvVars => {
   const TWITCH_CLIENT_ID = Deno.env.get("TWITCH_CLIENT_ID");
   const TWITCH_CLIENT_SECRET = Deno.env.get("TWITCH_CLIENT_SECRET");
+  const TWITCH_USERNAMES = Deno.env.get("TWITCH_USERNAMES");
 
   const envVars: Record<string, string | undefined> = {
     TWITCH_CLIENT_ID,
     TWITCH_CLIENT_SECRET,
+    TWITCH_USERNAMES,
   };
 
   if (!isEnvironmentVariables(envVars))
@@ -19,4 +21,4 @@ const _getEnvVars = (): EnvVars => {
 };
 
 const env = _getEnvVars();
-export const { TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET } = env;
+export const { TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET, TWITCH_USERNAMES } = env;

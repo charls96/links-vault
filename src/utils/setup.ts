@@ -1,5 +1,5 @@
-import services from "@services";
+import { Session } from "@models";
 
 export const setupApp = async () => {
-    await services.init();
+  await Session.init();
 };

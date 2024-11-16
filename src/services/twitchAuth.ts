@@ -7,26 +7,16 @@ import {
 } from "@constants";
 import { TwitchServiceError } from "@utils";
 import { isAuthTokenResponse } from "@typeguard";
-import type { AuthResponseToken } from "@types";
+import type { TwitchAuthResponseToken } from "@types";
+import { capitalize } from "@helpers";
 
-export default class TwitchAuthService {
-  static readonly #twitchBaseURL = "https://id.twitch.tv";
-  static readonly #urls: Record<string, string> = {
+export const TwitchAuthService = new (class {
+  readonly #twitchBaseURL = "https://id.twitch.tv";
+  readonly #urls: Record<string, string> = {
     auth: `${this.#twitchBaseURL}/oauth2/token`,
   };
 
-  private tokenData: AuthResponseToken;
-
-  private constructor(sessionTokenData: AuthResponseToken) {
-    this.tokenData = sessionTokenData;
-  }
-
-  static async init(): Promise<TwitchAuthService> {
-    const sessionTokenData = await this.getTwitchToken();
-    return new TwitchAuthService(sessionTokenData);
-  }
-
-  private static async getTwitchToken(): Promise<AuthResponseToken> {
+  private async getTwitchToken(): Promise<TwitchAuthResponseToken> {
     try {
       const response = await fetch(this.#urls.auth, {
         method: POST,
@@ -58,7 +48,10 @@ export default class TwitchAuthService {
     }
   }
 
-  getTwitchAuthToken(): string {
-    return `${this.tokenData.token_type} ${this.tokenData.access_token}`;
+  async getTwitchAuthToken(): Promise<string> {
+    const tokenData = await this.getTwitchToken();
+    const tokenType = capitalize(tokenData.token_type);
+
+    return `${tokenType} ${tokenData.access_token}`;
   }
-}
+})();

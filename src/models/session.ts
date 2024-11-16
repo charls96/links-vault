@@ -1,7 +1,9 @@
-export default new (class Session {
+import { TwitchAuthService } from "@services";
+
+export const Session = new (class {
   twitchToken!: string;
 
-  readonly #name = "session";
-
-  async initSession() {}
+  async init() {
+    this.twitchToken = await TwitchAuthService.getTwitchAuthToken();
+  }
 })();
